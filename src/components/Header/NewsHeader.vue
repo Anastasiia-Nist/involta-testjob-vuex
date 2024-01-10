@@ -60,6 +60,7 @@ export default {
     },
     handleSubmitSearch(event) {
       const query = this.$route.query;
+      this.$router.push({params: {page: 1}});
       if (query.search !== this.search)
         this.$router.push({ query: { ...query, search: this.search } });
       event.target.reset();

@@ -74,27 +74,60 @@
         Ничего не найдено
       </p>
       <ul class="news__list" :class="grid">
-        <li v-for="(news, index) in newsList" :key="index">
+        <li
+          v-for="(news, index) in newsList.slice(
+            indexOfFirstNews,
+            indexOfLastNews
+          )"
+          :key="index"
+        >
           <news-card :news="news" :grid="grid"></news-card>
         </li>
       </ul>
-      <div class="pagination"></div>
+      <news-pagination
+        :totalPages="Math.ceil(newsList.length / 4)"
+        class="news-pagination"
+      ></news-pagination>
     </section>
   </main>
 </template>
   <script>
 import NewsCard from "../NewsCard/NewsCard.vue";
+import NewsPagination from "../Pagination/Pagination.vue";
 
 export default {
   components: {
     NewsCard,
+    NewsPagination,
   },
   data() {
     return {
       grid: localStorage.getItem("filterGrid") || "grid",
+      currentPage: 1,
+      newsPerPage: 4,
     };
   },
+  watch: {
+    $route(to) {
+      to.params.page
+        ? (this.currentPage = to.params.page)
+        : (this.currentPage = 1);
+    },
+    currentPage() {
+      console.log(this.currentPage);
+    },
+  },
   computed: {
+    indexOfFirstNews() {
+      console.log(this.currentPage);
+      const indexOfFirstNews =
+        this.currentPage * this.newsPerPage - this.newsPerPage;
+      return indexOfFirstNews;
+    },
+    indexOfLastNews() {
+      const indexOfLastNews = this.currentPage * this.newsPerPage;
+      return indexOfLastNews;
+    },
     newsList() {
       const query = this.$route.query;
       const allNews = this.$store.getters.getNewsList;
@@ -135,7 +168,7 @@ export default {
     handleLinkType(e) {
       const query = this.$route.query;
       if (query.type != e.target.id) {
-        this.$router.push({ query: { ...query, type: e.target.id } });
+        this.$router.push({ query: { ...query, type: e.target.id }, params: {page: 1} });
       }
     },
   },
