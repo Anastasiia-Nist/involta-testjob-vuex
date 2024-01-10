@@ -69,36 +69,33 @@
         </button>
       </div>
     </section>
-    <section>
-      <p class="news__nothing-found" v-show="newsList.length === 0">
-        Ничего не найдено
-      </p>
-      <ul class="news__list" :class="grid">
-        <li
-          v-for="(news, index) in newsList.slice(
-            indexOfFirstNews,
-            indexOfLastNews
-          )"
-          :key="index"
-        >
-          <news-card :news="news" :grid="grid"></news-card>
-        </li>
-      </ul>
-      <news-pagination
-        :totalPages="Math.ceil(newsList.length / 4)"
-        class="news-pagination"
-      ></news-pagination>
-    </section>
+    <news-list :newsList="newsList" :grid="grid">
+      <li
+        v-for="(news, index) in newsList.slice(
+          indexOfFirstNews,
+          indexOfLastNews
+        )"
+        :key="index"
+      >
+        <news-card :news="news" :grid="grid"></news-card>
+      </li>
+    </news-list>
+    <news-pagination
+      :totalPages="Math.ceil(newsList.length / 4)"
+      class="news-pagination"
+    ></news-pagination>
   </main>
 </template>
   <script>
 import NewsCard from "../NewsCard/NewsCard.vue";
-import NewsPagination from "../Pagination/Pagination.vue";
+import NewsPagination from "../UI/Pagination/Pagination.vue";
+import NewsList from "../NewsList/NewsList.vue";
 
 export default {
   components: {
     NewsCard,
     NewsPagination,
+    NewsList,
   },
   data() {
     return {
@@ -168,11 +165,12 @@ export default {
     handleLinkType(e) {
       const query = this.$route.query;
       if (query.type != e.target.id) {
-        this.$router.push({ query: { ...query, type: e.target.id }, params: {page: 1} });
+        this.$router.push({
+          query: { ...query, type: e.target.id },
+          params: { page: 1 },
+        });
       }
     },
   },
 };
 </script>
-  <style lang="scss">
-</style>
