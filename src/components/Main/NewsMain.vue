@@ -102,6 +102,7 @@ export default {
       grid: localStorage.getItem("filterGrid") || "grid",
       currentPage: 1,
       newsPerPage: 4,
+      totalPages: 1,
     };
   },
   watch: {
@@ -109,9 +110,6 @@ export default {
       to.params.page
         ? (this.currentPage = to.params.page)
         : (this.currentPage = 1);
-    },
-    currentPage() {
-      console.log(this.currentPage);
     },
   },
   computed: {
@@ -131,10 +129,10 @@ export default {
       if (query.type === "all") {
         return query.search
           ? allNews.filter(
-              ({ title, description }) =>
-                title.toLowerCase().includes(query.search.toLowerCase()) ||
-                description.toLowerCase().includes(query.search.toLowerCase())
-            )
+          ({ title, description }) =>
+            title.toLowerCase().includes(query.search.toLowerCase()) ||
+            description.toLowerCase().includes(query.search.toLowerCase())
+        )
           : allNews;
       }
       if (query.type) {
@@ -156,6 +154,8 @@ export default {
   },
   mounted() {
     this.$store.dispatch("setNewsList");
+    const param = this.$route.params.page;
+    param ? (this.currentPage = this.$route.params.page) : false;
   },
   methods: {
     handleGridNews(value) {
