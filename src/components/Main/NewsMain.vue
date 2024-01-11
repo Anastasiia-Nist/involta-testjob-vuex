@@ -29,7 +29,7 @@
           @click="handleLinkType($event)"
           :active="$route.query.type === 'mk'"
         >
-          Mos.ru
+          Mk.ru
         </b-link>
       </div>
       <div class="news__grid-list">

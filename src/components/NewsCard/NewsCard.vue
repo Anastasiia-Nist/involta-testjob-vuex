@@ -7,28 +7,25 @@
         v-show="grid === 'line'"
       />
       <div class="news-card__body-text">
-        <b-link class="news-card__title">{{ news.title }}</b-link>
+        <h2 class="news-card__title">{{ news.title }}</h2>
         <p class="news-card__description">
           {{ news.description }}
         </p>
       </div>
     </div>
-    <b-link class="news-card__link" :href="news.link"
+    <b-link class="news-card__link" target="_blank" :href="news.link"
       >Подробнее</b-link
     >
     <div class="news-card__footer">
-      <b-link :href="`https://${getTypeNews()}`">{{ getTypeNews() }}</b-link>
+      <b-link target="_blank" :href="`https://${typeNews}`">{{
+        typeNews
+      }}</b-link>
       <p>{{ news.pubDate }}</p>
     </div>
   </article>
 </template>
     <script>
 export default {
-  data() {
-    return {
-      typeNews: "",
-    };
-  },
   props: {
     news: {
       type: Object,
@@ -39,12 +36,9 @@ export default {
       requires: true,
     },
   },
-  methods: {
-    getTypeNews() {
-      this.news.link.includes("lenta")
-        ? (this.typeNews = "lenta.ru")
-        : (this.typeNews = "mos.ru");
-      return this.typeNews;
+  computed: {
+    typeNews() {
+      return this.news.link.includes("lenta") ? "www.lenta.ru" : "www.mk.ru";
     },
   },
 };

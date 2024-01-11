@@ -11,6 +11,7 @@ export default new Vuex.Store({
       line: 'line',
     },
     newsList: [],
+    isLoading: false,
   },
   pagination: {
     currentPage: 1,
@@ -24,11 +25,13 @@ export default new Vuex.Store({
   },
   actions: {
     setNewsList({ commit }) {
-      Promise.all([newsApi.getNewsMos(), newsApi.getNewsLenta()]).then(
-        ([mos, lenta]) => {
-          commit('gotData', [...mos.items, ...lenta.items]);
-        }
-      );
+      this.state.isLoading = true;
+      Promise.all([newsApi.getNewsMk(), newsApi.getNewsLenta()])
+        .then(([mk, lenta]) => {
+          commit('gotData', [...mk.items, ...lenta.items]);
+        })
+        .catch((err) => console.log(err))
+        .finally(() => (this.state.isLoading = false));
     },
   },
   // getters

@@ -1,6 +1,6 @@
 <template>
   <nav>
-    <p class="news__nothing-found" v-if="$route.params.page > totalPages">Такой страницы нет</p>
+    <p class="news__nothing-found" v-if="$route.params.page > totalPages && totalPages !== 0">Такой страницы нет</p>
     <ul v-else class="news-pagination__list">
       <li v-for="page in totalPages" :key="page">
         <router-link :to="paginateObject((currentPage = page))">

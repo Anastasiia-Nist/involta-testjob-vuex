@@ -1,4 +1,4 @@
-import { URL_MOS, URL_LENTA } from './constants';
+import { URL_MK, URL_LENTA } from './constants';
 // const corsProxy = 'https://api.allorigins.win/get?url=';
 const corsProxy = 'https://thingproxy.freeboard.io/fetch/';
 // const corsProxy = 'https://api.codetabs.com/v1/proxy/?quest=';
@@ -22,8 +22,8 @@ export class Api {
     }
     return Promise.reject(`Что-то сломалось. Ошибка: ${res.status}`);
   }
-  getNewsMos() {
-    return this._request(rssReader + encodeURIComponent(corsProxy + URL_MOS), {
+  getNewsMk() {
+    return this._request(rssReader + encodeURIComponent(corsProxy + URL_MK), {
       headers: this._headers,
     });
   }
