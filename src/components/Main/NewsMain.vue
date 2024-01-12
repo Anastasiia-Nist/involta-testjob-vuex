@@ -126,7 +126,7 @@ export default {
     newsList() {
       const query = this.$route.query;
       const allNews = this.$store.getters.getNewsList;
-      if (query.type === "all") {
+      if (query.type === "all" || !query.type) {
         return query.search
           ? allNews.filter(
           ({ title, description }) =>
