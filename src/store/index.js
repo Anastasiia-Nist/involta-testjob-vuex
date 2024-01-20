@@ -13,10 +13,6 @@ export default new Vuex.Store({
     newsList: [],
     isLoading: false,
   },
-  pagination: {
-    currentPage: 1,
-    perPage: 4,
-  },
   // setters
   mutations: {
     gotData(state, data) {
